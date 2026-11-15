@@ -134,6 +134,6 @@
     const blob=new Blob([rows.join('\n')+'\n'],{type:'text/csv'}),a=document.createElement('a');a.href=URL.createObjectURL(blob);a.download='colony-weather-experiment.csv';a.click();URL.revokeObjectURL(a.href);
   });
   window.addEventListener('resize',render);
-  window.ColonyWeather={get state(){return pair;},step:oneStep,reset};
+  window.ColonyWeather={get state(){return pair;},step:oneStep,reset,tick,render};
   render();
 })();
