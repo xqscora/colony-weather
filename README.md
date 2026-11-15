@@ -4,7 +4,9 @@
 
 ## Run it
 
-Open `index.html` in a modern browser. No build step, API key, backend, or network connection is required after the font loads; the model and experiment data stay in the browser. `node --test tests/sim.test.mjs` runs the deterministic model tests.
+**Live demo:** https://xqscora.github.io/colony-weather/
+
+Open `index.html` in a modern browser. No build step, API key, or backend is required; the model and experiment data stay in the browser. `npm test` runs the deterministic model tests.
 
 ## Experiment workflow
 
