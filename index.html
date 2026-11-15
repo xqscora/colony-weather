@@ -1,0 +1,89 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#eaf4f4">
+  <title>Colony Weather - A living experiment, branched</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#top" aria-label="Colony Weather home"><span class="brand-mark">CW</span><span>Colony Weather</span></a>
+    <div class="top-meta"><span class="live-dot"></span> INTERACTIVE YEAST ECOLOGY <span class="meta-divider">/</span> ICEHACKS 2026</div>
+    <button id="aboutBtn" class="icon-button" aria-label="About this model" title="About this model">i</button>
+  </header>
+
+  <main id="top">
+    <section class="intro">
+      <div>
+        <p class="eyebrow">ONE STARTING CULTURE. TWO POSSIBLE WORLDS.</p>
+        <h1>Change the conditions.<br><em>Watch the colony answer.</em></h1>
+        <p class="intro-copy">Branch the same virtual yeast culture into two environments. Change oxygen, food, or temperature, then follow population and chemistry over time.</p>
+      </div>
+      <div class="intro-note"><span class="note-label">MODEL SCOPE</span><p>A small, inspectable teaching model of a budding-yeast culture. It is not a whole-cell simulator or a calibrated experimental predictor.</p><button id="modelLink" class="text-button">How the rules work <span aria-hidden="true">↗</span></button></div>
+    </section>
+
+    <section class="control-row" aria-label="Experiment controls">
+      <div class="control-group run-controls">
+        <button id="runBtn" class="primary-button"><span aria-hidden="true">▶</span> Run both</button>
+        <button id="stepBtn" class="secondary-button">Step</button>
+        <button id="resetBtn" class="secondary-button">Reset</button>
+        <label class="speed-control">Speed <select id="speedSelect"><option value="1">1×</option><option value="3" selected>3×</option><option value="8">8×</option></select></label>
+      </div>
+      <div class="control-group shared-controls">
+        <label>Starting cells <output id="seedOut">34</output><input id="seedInput" type="range" min="8" max="72" value="34"></label>
+        <button id="exportBtn" class="secondary-button export-button" title="Download experiment data as CSV">↓ <span>Export CSV</span></button>
+      </div>
+    </section>
+
+    <section class="chambers" aria-label="Paired culture chambers">
+      <article class="chamber chamber-a">
+        <header class="chamber-head"><div><span class="chamber-index">A</span><div><h2>Reference chamber</h2><p>Starting conditions</p></div></div><span class="condition-tag">REFERENCE</span></header>
+        <div class="dish-wrap"><canvas id="dishA" aria-label="Reference chamber spatial nutrient and yeast cell simulation"></canvas><div class="dish-overlay"><span>LIVE CULTURE MAP</span><span id="timeA">0.0 h</span></div></div>
+        <div class="slider-grid">
+          <label>Glucose <output id="glucoseAOut">3.0</output><input id="glucoseA" type="range" min="0.4" max="8" value="3" step="0.1"></label>
+          <label>Oxygen <output id="oxygenAOut">70%</output><input id="oxygenA" type="range" min="0" max="100" value="70" step="1"></label>
+          <label>Temperature <output id="tempAOut">30°C</output><input id="tempA" type="range" min="10" max="40" value="30" step="1"></label>
+        </div>
+        <div class="metric-grid" id="metricsA"></div>
+        <button id="pulseA" class="text-button pulse-button">+ Add a glucose pulse to A</button>
+      </article>
+
+      <div class="branch-spine" aria-hidden="true"><span>same seed</span><div></div><span>different conditions</span></div>
+
+      <article class="chamber chamber-b">
+        <header class="chamber-head"><div><span class="chamber-index">B</span><div><h2>Experiment chamber</h2><p>Change one or more conditions</p></div></div><span class="condition-tag experiment-tag">EXPERIMENT</span></header>
+        <div class="dish-wrap"><canvas id="dishB" aria-label="Experiment chamber spatial nutrient and yeast cell simulation"></canvas><div class="dish-overlay"><span>LIVE CULTURE MAP</span><span id="timeB">0.0 h</span></div></div>
+        <div class="slider-grid">
+          <label>Glucose <output id="glucoseBOut">3.0</output><input id="glucoseB" type="range" min="0.4" max="8" value="3" step="0.1"></label>
+          <label>Oxygen <output id="oxygenBOut">20%</output><input id="oxygenB" type="range" min="0" max="100" value="20" step="1"></label>
+          <label>Temperature <output id="tempBOut">30°C</output><input id="tempB" type="range" min="10" max="40" value="30" step="1"></label>
+        </div>
+        <div class="metric-grid" id="metricsB"></div>
+        <button id="pulseB" class="text-button pulse-button">+ Add a glucose pulse to B</button>
+      </article>
+    </section>
+
+    <section class="readout-section">
+      <div class="section-heading"><div><p class="eyebrow">MEASURE THE CONSEQUENCES</p><h2>One experiment, several signals</h2></div><div class="chart-legend"><span><i class="legend-a"></i> A · reference</span><span><i class="legend-b"></i> B · experiment</span></div></div>
+      <div class="readout-grid">
+        <article class="chart-panel"><header><h3>Population</h3><span>relative cell count</span></header><canvas id="populationChart" aria-label="Population over simulation time"></canvas></article>
+        <article class="chart-panel"><header><h3>Glucose remaining</h3><span>relative units</span></header><canvas id="glucoseChart" aria-label="Remaining glucose over simulation time"></canvas></article>
+        <article class="chart-panel"><header><h3>Metabolic outputs</h3><select id="outputSelect" aria-label="Choose metabolic output"><option value="ethanol">Ethanol proxy</option><option value="co2">CO₂ proxy</option><option value="oxygen">Oxygen remaining</option></select></header><canvas id="outputChart" aria-label="Metabolic output over simulation time"></canvas></article>
+      </div>
+      <div class="observation" id="observation"><span class="observation-mark">↗</span><div><strong>Start with a question</strong><p>For example: “If I lower oxygen but keep the same starting culture and glucose, which measured signals separate first?”</p></div><span class="observation-time">READY</span></div>
+    </section>
+
+    <section class="method-strip">
+      <div><span class="method-number">01</span><strong>Branch</strong><p>Both chambers receive the same seeded population and starting nutrient field.</p></div>
+      <div><span class="method-number">02</span><strong>Perturb</strong><p>Adjust oxygen, glucose, or temperature independently; add a timed nutrient pulse.</p></div>
+      <div><span class="method-number">03</span><strong>Inspect</strong><p>Follow local resource depletion, budding, and multiple output traces side by side.</p></div>
+      <div><span class="method-number">04</span><strong>Export</strong><p>Download the experiment's time-series as CSV for a reproducible comparison.</p></div>
+    </section>
+  </main>
+
+  <dialog id="modelDialog"><form method="dialog"><button class="dialog-close" aria-label="Close">×</button><p class="eyebrow">MODEL NOTES</p><h2>What this sandbox does (and does not)</h2><p>Each dot is a simplified yeast-cell agent sharing a local tile of a small culture dish. Cells consume local glucose, use an oxygen-dependent energy term, change mass, and bud into nearby space. Neighboring tiles exchange resources. Every step updates glucose, oxygen, ethanol-proxy and CO₂-proxy fields.</p><p>The fermentation share rises with high glucose and low oxygen, reflecting qualitative features of <i>Saccharomyces cerevisiae</i> metabolism. Coefficients are illustrative and dimensionless; they are not fitted to a particular strain or laboratory dataset.</p><p><strong>Use it to explore model behavior, not to predict a real culture.</strong> It omits gene regulation, cell-cycle phases, strain differences, pH buffering, vessel geometry and many other mechanisms. A visually plausible result is not experimental evidence.</p><p class="source-note">Background: Saldanha et al., “The effect of glucose and oxygen limitation on the physiology of yeast,” <i>Microbiology</i> (2004), <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC1087253/" target="_blank" rel="noreferrer">open paper</a>; van Dijken et al., yeast growth on glucose/ethanol mixtures (1982), <a href="https://pubmed.ncbi.nlm.nih.gov/7016030/" target="_blank" rel="noreferrer">PubMed record</a>.</p><button class="primary-button">Back to experiment</button></form></dialog>
+  <script src="app.js"></script>
+</body>
+</html>

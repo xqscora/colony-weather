@@ -1,0 +1,9 @@
+{
+  "name": "colony-weather",
+  "version": "1.0.0",
+  "private": false,
+  "description": "A paired-chamber, spatial yeast ecology teaching sandbox.",
+  "scripts": {
+    "test": "node --test tests/sim.test.mjs"
+  }
+}
